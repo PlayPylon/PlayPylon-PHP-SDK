@@ -44,14 +44,14 @@ class PlayPylonClient
 			LEAD TYPE : Use reference key provided by PlayPylon.
 			METADATA : Any data you would like to apply to the lead.
     	*/
-        CURLOPT_URL => "https://api.playpylon.com/v1/registerlead",
+        $dispatch_url = "https://api.playpylon.com/v1/registerlead",
         $dispatch_data = array(
 	        "gameid" => $this->id,
 	        "secret" => md5($this->secret),
 	        "metadata" => $metadata,
 	        "confirmed" => true
         );
-        $this->curlDispatch(,$dispatch_data);
+        $this->curlDispatch($dispatch_url,$dispatch_data);
   }
 
 

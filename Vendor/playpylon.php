@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2017 PlayPylon LtD.
  *
@@ -8,6 +9,7 @@
  * PlayPylon.
  *
  */
+
 namespace PlayPylon;
 
 class PlayPylon

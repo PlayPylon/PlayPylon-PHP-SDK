@@ -22,38 +22,53 @@ class PlayPylonClient
         $this->secret = $secret;
     }
 
-    public function pushPotentialLead($lead_reference,$lead_type,$metadata) {
+    public function pushPotentialLead($lead_reference,$lead_type,$metadata = []) {
     	/*
     		LEAD REFERENCE : Use any unique varchar(188) identifier, transaction id, case number, user id ect.
 			LEAD TYPE : Use reference key provided by PlayPylon.
 			METADATA : Any data you would like to apply to the lead.
     	*/
-        $dispatch_url => "https://api.playpylon.com/v1/registerlead",
+        $dispatch_url => 'https://api.playpylon.com/v1/registerlead',
         $dispatch_data = array(
-	        "gameid" => $this->id,
-	        "secret" => md5($this->secret),
-	        "metadata" => $metadata
+	        'gameid' => $this->id,
+	        'secret' => md5($this->secret),
+	        'metadata' => $metadata
         );
         $this->curlDispatch($dispatch_url,$dispatch_data);
   }
 
 
-    public function pushConfirmedLead($lead_reference,$lead_type,$metadata) {
+    public function pushConfirmedLead($lead_reference,$lead_type,$metadata = []) {
     	/*
     		LEAD REFERENCE : Use any unique varchar(188) identifier, transaction id, case number, user id ect.
 			LEAD TYPE : Use reference key provided by PlayPylon.
 			METADATA : Any data you would like to apply to the lead.
     	*/
-        $dispatch_url = "https://api.playpylon.com/v1/registerlead",
+        $dispatch_url = 'https://api.playpylon.com/v1/registerlead',
         $dispatch_data = array(
-	        "gameid" => $this->id,
-	        "secret" => md5($this->secret),
-	        "metadata" => $metadata,
-	        "confirmed" => true
+	        'gameid' => $this->id,
+	        'secret' => md5($this->secret),
+	        'metadata' => $metadata,
+	        'confirmed' => true
         );
         $this->curlDispatch($dispatch_url,$dispatch_data);
   }
 
+
+
+    public function getCampaignStatistics($call,$format = 'json') {
+        /*
+            CALL : Statistics call needed for the correct information.
+            FORMAT : Response format (json, xml or csv).
+        */
+        $dispatch_url = 'https://api.playpylon.com/v1/statistics/'.$call,
+        $dispatch_data = array(
+            'gameid' => $this->id,
+            'secret' => md5($this->secret),
+            'format' => $format
+        );
+        return $this->curlDispatch($dispatch_url,$dispatch_data);
+  }
 
 
     public function curlDispatch($url,$data) {
@@ -67,6 +82,7 @@ class PlayPylonClient
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_exec($ch);
         curl_close($ch);
+        return $ch;
   }
 
 
